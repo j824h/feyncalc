@@ -49,9 +49,6 @@ End[]
 Begin["`CacheManagement`Private`"];
 
 
-SetAttributes[cachedToString, HoldAll];
-
-
 whiteListNames = {
 	ExpandScalarProduct,
 	PairContract,
@@ -82,19 +79,19 @@ FCUseCache[fcFunc_, args_List, opts_List: {}] :=
 
 		Which[
 			fcFunc === ExpandScalarProduct,
-				depArgs = cachedToString[standardSet],
+				depArgs = ToString[standardSet],
 			fcFunc === PairContract,
-				depArgs = cachedToString[standardSet],
+				depArgs = ToString[standardSet],
 			fcFunc === FCFastContract,
-				depArgs = cachedToString[standardSet],
+				depArgs = ToString[standardSet],
 			fcFunc === FeynCalc`NPointTo4Point`Private`getDet,
-				depArgs = cachedToString[standardSet],
+				depArgs = ToString[standardSet],
 			fcFunc === FeynCalc`SimplifyPolyLog`Private`simplifyArgument,
-				depArgs = cachedToString[standardSet],
+				depArgs = ToString[standardSet],
 			fcFunc === FeynCalc`FCApart`Private`pfracRaw,
-				depArgs = cachedToString[standardSet],
+				depArgs = ToString[standardSet],
 			fcFunc === FeynCalc`Package`momentumRoutingDenner,
-				depArgs = cachedToString[standardSet],
+				depArgs = ToString[standardSet],
 			True,
 				Message[FCUseCache::blacklist,fcFunc];
 				Abort[]
@@ -111,10 +108,6 @@ FCClearCache[fcFunc_] :=
 
 FCClearCache[All]:=
 	FCClearCache /@ whiteListNames;
-
-
-cachedToString[x_] :=
-	cachedToString[x] = ToString[x];
 
 
 FCPrint[1,"CacheManagement.m loaded"];
