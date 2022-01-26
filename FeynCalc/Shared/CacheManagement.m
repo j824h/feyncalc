@@ -49,9 +49,6 @@ End[]
 Begin["`CacheManagement`Private`"];
 
 
-SetAttributes[cachedToString, HoldAll];
-
-
 whiteListNames = {
 	ExpandScalarProduct,
 	PairContract,
@@ -113,8 +110,7 @@ FCClearCache[All]:=
 	FCClearCache /@ whiteListNames;
 
 
-cachedToString[x_] :=
-	cachedToString[x] = ToString[x];
+cachedToString[x_] := Once[ToString[x]];
 
 
 FCPrint[1,"CacheManagement.m loaded"];
