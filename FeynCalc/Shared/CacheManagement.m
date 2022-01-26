@@ -65,8 +65,8 @@ FCUseCache[fcFunc_, args_List, opts_List: {}] :=
 		cachedHead=ToExpression["cacheFunc"<>ToString[fcFunc]];
 
 		If[	MemberQ[whiteListNames,fcFunc],
-			cachedHead[arg_, cargs_String, ops_] :=
-				MemSet[cachedHead[arg, cargs, ops], fcFunc[Sequence @@ arg, ops]],
+			cachedHead[arg_, cargs_, ops_] :=
+				MemSet[cachedHead[arg, Verbatim[cargs], ops], fcFunc[Sequence @@ arg, ops]],
 			Message[FCUseCache::blacklist,fcFunc];
 			Abort[]
 		];
@@ -79,19 +79,19 @@ FCUseCache[fcFunc_, args_List, opts_List: {}] :=
 
 		Which[
 			fcFunc === ExpandScalarProduct,
-				depArgs = cachedToString[standardSet],
+				depArgs = standardSet,
 			fcFunc === PairContract,
-				depArgs = cachedToString[standardSet],
+				depArgs = standardSet,
 			fcFunc === FCFastContract,
-				depArgs = cachedToString[standardSet],
+				depArgs = standardSet,
 			fcFunc === FeynCalc`NPointTo4Point`Private`getDet,
-				depArgs = cachedToString[standardSet],
+				depArgs = standardSet,
 			fcFunc === FeynCalc`SimplifyPolyLog`Private`simplifyArgument,
-				depArgs = cachedToString[standardSet],
+				depArgs = standardSet,
 			fcFunc === FeynCalc`FCApart`Private`pfracRaw,
-				depArgs = cachedToString[standardSet],
+				depArgs = standardSet,
 			fcFunc === FeynCalc`Package`momentumRoutingDenner,
-				depArgs = cachedToString[standardSet],
+				depArgs = standardSet,
 			True,
 				Message[FCUseCache::blacklist,fcFunc];
 				Abort[]
@@ -108,10 +108,6 @@ FCClearCache[fcFunc_] :=
 
 FCClearCache[All]:=
 	FCClearCache /@ whiteListNames;
-
-
-cachedToString[x_] :=
-	cachedToString[Verbatim[x]] = ToString[x];
 
 
 FCPrint[1,"CacheManagement.m loaded"];
