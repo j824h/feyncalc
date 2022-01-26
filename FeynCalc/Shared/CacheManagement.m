@@ -65,8 +65,7 @@ FCUseCache[fcFunc_, args_List, opts_List: {}] :=
 		cachedHead=ToExpression["cacheFunc"<>ToString[fcFunc]];
 
 		If[	MemberQ[whiteListNames,fcFunc],
-			cachedHead[arg_, cargs_, ops_] :=
-				MemSet[cachedHead[arg, Verbatim[cargs], ops], fcFunc[Sequence @@ arg, ops]],
+			cachedHead[arg_, cargs_, ops_] := fcFunc[Sequence @@ arg, ops],
 			Message[FCUseCache::blacklist,fcFunc];
 			Abort[]
 		];
@@ -96,7 +95,7 @@ FCUseCache[fcFunc_, args_List, opts_List: {}] :=
 				Message[FCUseCache::blacklist,fcFunc];
 				Abort[]
 		];
-		cachedHead[args,depArgs,fullOpts]
+		Once[cachedHead[args,depArgs,fullOpts]]
 	];
 
 FCShowCache[fcFunc_] :=
