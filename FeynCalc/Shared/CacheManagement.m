@@ -95,7 +95,7 @@ FCUseCache[fcFunc_, args_List, opts_List: {}] :=
 				Message[FCUseCache::blacklist,fcFunc];
 				Abort[]
 		];
-		Once[cachedHead[args,depArgs,fullOpts]]
+		cachedHead[args,depArgs,fullOpts]
 	];
 
 FCShowCache[fcFunc_] :=
